@@ -76,27 +76,26 @@ void setup()
 
 void loop()
 {
-    // incomingByte = Serial.read();
+    if (Serial.available())
+    {
+        buffer = Serial.readStringUntil('\n');
 
-    // buffer += String(incomingByte);
+        buffer.trim();
+        Serial.print("Received: ");
+        Serial.println(buffer);
 
-    // if (incomingByte == '\n')
-    // {
-    //     buffer.trim();
-    //     Serial.printf("Received: %s\n", buffer.c_str());
+        int decodeResult = flipDot.decodePacket(buffer);
+        if (decodeResult == 0)
+        {
 
-    //     int decodeResult = flipDot.decodePacket(buffer);
-    //     if (decodeResult == 0)
-    //     {
+            String newPacket = flipDot.encodePacket();
+            Serial.printf("newPacket: %s\n", newPacket.c_str());
+        }
+        else
+        {
+            Serial.printf("Error decoding packet: %d\n", decodeResult);
+        }
 
-    //         String newPacket = flipDot.encodePacket();
-    //         Serial.printf("newPacket: %s\n", newPacket.c_str());
-    //     }
-    //     else
-    //     {
-    //         Serial.printf("Error decoding packet: %d\n", decodeResult);
-    //     }
-
-    //     buffer = "";
-    // }
+        buffer = "";
+    }
 }

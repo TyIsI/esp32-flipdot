@@ -21,6 +21,9 @@ void doTest(String testString)
 
     encodedPacket = flipDot.encodePacket();
 
+    Serial.println("");
+
+    Serial.println(testString);
     Serial.println(encodedPacket);
 
     Serial.println("");

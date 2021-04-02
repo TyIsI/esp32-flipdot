@@ -81,15 +81,14 @@ void loop()
         buffer = Serial.readStringUntil('\n');
 
         buffer.trim();
-        Serial.print("Received: ");
-        Serial.println(buffer);
+        Serial.printf("Received:\t%s\n", buffer.c_str());
 
         int decodeResult = flipDot.decodePacket(buffer);
         if (decodeResult == 0)
         {
 
             String newPacket = flipDot.encodePacket();
-            Serial.printf("newPacket: %s\n", newPacket.c_str());
+            Serial.printf("newPacket:\t%s\n", newPacket.c_str());
         }
         else
         {

@@ -72,6 +72,8 @@ void setup()
 
     Serial.printf("Test #9:\n");
     doTest(":00000101FE");
+
+    Serial.printf("Waiting for input...\n");
 }
 
 void loop()
@@ -89,6 +91,9 @@ void loop()
 
             String newPacket = flipDot.encodePacket();
             Serial.printf("newPacket:\t%s\n", newPacket.c_str());
+            Serial.printf("\n");
+            flipDot.dump();
+            Serial.printf("\n");
         }
         else
         {

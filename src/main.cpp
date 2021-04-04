@@ -5,7 +5,7 @@
 String buffer = "";
 char incomingByte = 0;
 int decodeResult = 0;
-String encodedPacket = "";
+String encodedFrame = "";
 
 int passed = 0;
 
@@ -13,22 +13,23 @@ FlipDot flipDot;
 
 void doTest(String testString)
 {
-    decodeResult = flipDot.decodePacket(testString);
+    decodeResult = flipDot.decodeFrame(testString);
     Serial.printf("decodeResult: %d\n", decodeResult);
     flipDot.dump();
 
     Serial.printf("Encoded Result:\n");
 
-    encodedPacket = flipDot.encodePacket();
+    encodedFrame = flipDot.encodeFrame();
+    encodedFrame.trim();
 
     Serial.println("");
 
     Serial.println(testString);
-    Serial.println(encodedPacket);
+    Serial.println(encodedFrame);
 
     Serial.println("");
 
-    passed = (testString == encodedPacket);
+    passed = (testString == encodedFrame);
 
     Serial.printf("Passed: %d\n", passed);
 
@@ -85,19 +86,19 @@ void loop()
         buffer.trim();
         Serial.printf("Received:\t%s\n", buffer.c_str());
 
-        int decodeResult = flipDot.decodePacket(buffer);
+        int decodeResult = flipDot.decodeFrame(buffer);
         if (decodeResult == 0)
         {
 
-            String newPacket = flipDot.encodePacket();
-            Serial.printf("newPacket:\t%s\n", newPacket.c_str());
+            String newFrame = flipDot.encodeFrame();
+            Serial.printf("newFrame:\t%s\n", newFrame.c_str());
             Serial.printf("\n");
             flipDot.dump();
             Serial.printf("\n");
         }
         else
         {
-            Serial.printf("Error decoding packet: %d\n", decodeResult);
+            Serial.printf("Error decoding Frame: %d\n", decodeResult);
         }
 
         buffer = "";

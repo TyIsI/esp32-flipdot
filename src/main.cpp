@@ -1,6 +1,6 @@
 #include <Arduino.h>
 
-#include "FlipDot/FlipDot.h"
+#include <FlipDot.hpp>
 
 String buffer = "";
 char incomingByte = 0;
@@ -11,31 +11,40 @@ int passed = 0;
 
 FlipDot flipDot;
 
+
 void doTest(String testString)
 {
+    static int testNumber = 1;
+
+    Serial.printf("Test #%d:\n", testNumber);
+
     decodeResult = flipDot.decodeFrame(testString);
+
     Serial.printf("decodeResult: %d\n", decodeResult);
+
     flipDot.dump();
 
     Serial.printf("Encoded Result:\n");
 
     encodedFrame = flipDot.encodeFrame();
+
+    Serial.println("");
+
+    testString.trim();
     encodedFrame.trim();
 
-    Serial.println("");
-
-    Serial.println(testString);
-    Serial.println(encodedFrame);
+    Serial.printf("testString:\t%s\n", testString.c_str());
+    Serial.printf("encodedFrame:\t%s\n", encodedFrame.c_str());
 
     Serial.println("");
 
-    passed = (testString == encodedFrame);
-
-    Serial.printf("Passed: %d\n", passed);
+    Serial.printf("Passed: %d\n", (testString == encodedFrame));
 
     Serial.println("");
 
     flipDot.clear();
+
+    testNumber++;
 }
 
 void setup()
@@ -47,32 +56,23 @@ void setup()
         ; // wait for serial port to connect. Needed for native USB port only
     }
 
-    Serial.printf("Test #1:\n");
-    doTest(":01000102FFFD");
+    doTest(":01000102FFFD\r\n");
 
-    Serial.printf("Test #2:\n");
-    doTest(":01000202FFFC");
+    doTest(":01000202FFFC\r\n");
 
-    Serial.printf("Test #3:\n");
-    doTest(":010002040FEA");
+    doTest(":010002040FEA\r\n");
 
-    Serial.printf("Test #4:\n");
-    doTest(":0100020200FB");
+    doTest(":0100020200FB\r\n");
 
-    Serial.printf("Test #5:\n");
-    doTest(":010002040FEA");
+    doTest(":010002040FEA\r\n");
 
-    Serial.printf("Test #6:\n");
-    doTest(":01000203A159");
+    doTest(":01000203A159\r\n");
 
-    Serial.printf("Test #7:\n");
-    doTest(":010002059563");
+    doTest(":010002059563\r\n");
 
-    Serial.printf("Test #8:\n");
-    doTest(":1000000008B300100C100078030028000000000066");
+    doTest(":1000000008B300100C100078030028000000000066\r\n");
 
-    Serial.printf("Test #9:\n");
-    doTest(":00000101FE");
+    doTest(":00000101FE\r\n");
 
     Serial.printf("Waiting for input...\n");
 }

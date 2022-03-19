@@ -1,0 +1,3 @@
+[submodule "lib/FlipDot"]
+	path = lib/FlipDot
+	url = https://github.com/TyIsI/FlipDot.git
